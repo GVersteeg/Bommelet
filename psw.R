@@ -22,33 +22,61 @@ for (i in seq_along(f_wrd$base)) {
   wrd <- unlist(strsplit(wrd, ""))
   df_wrd[i,] <- as.character(wrd)
 }
+df_sel <- df_wrd                                               # setup temp set
+v_col <- as.vector(c(0,0,0,0,0))                             # setup col-vector
+request <- 1
+print(request)
 
+#--------------------
 # round 1: input set1
-df1 <- df_wrd[which(df_wrd$x1 %in% set1),]
-print(df1)
-s <- as.vector(c(0,0,0,0,0))
-s[2] <- length(unique(df1$x2))
-s[3] <- length(unique(df1$x3))
-s[4] <- length(unique(df1$x4))
-s[5] <- length(unique(df1$x5))
-request <- which(s==max(s))[1]
-
-#
-df2 <- df1[which(df1$x2 %in% set2),]
-print(df2)
-s <- as.vector(c(0,0,0,0,0))
-s[3] <- length(unique(df2$x3))
-s[4] <- length(unique(df2$x4))
-s[5] <- length(unique(df2$x5))
-request <- which(s==max(s))[1]
-
-#
-df3 <- df2[which(df2$x3 %in% set3),]
-print(df3)
-s <- as.vector(c(0,0,0,0,0))
-s[4] <- length(unique(df3$x4))
-s[5] <- length(unique(df3$x5))
-request <- which(s==max(s))[1]
-if (max(s) == 1) {
-  request <- "stop"
+set <- c("r","q","w","e","k","v")               # set needs to be input by user
+df_sel <- df_sel[which(df_sel[,request] %in% set),]
+v_col[request] <- -1
+for (i in c(1:length(v_col))) {
+  if (v_col[i] != -1) {
+    v_col[i] <- length(unique(df_sel[,i]))
+  }
 }
+if (max(v_col) == 1) {
+  request <- "stop"
+} else {
+  request <- which(v_col == max(v_col))[1]
+}
+print(df_sel)
+print(request)
+
+#--------------------
+# round 2: input set2
+set <- c("k","d","b","h","q","u")               # set needs to be input by user
+df_sel <- df_sel[which(df_sel[,request] %in% set),]
+v_col[request] <- -1
+for (i in seq_along(v_col)) {
+  if (v_col[i] != -1) {
+    v_col[i] <- length(unique(df_sel[,i]))
+  }
+}
+if (max(v_col) == 1) {
+  request <- "stop"
+} else {
+  request <- which(v_col == max(v_col))[1]
+}
+print(df_sel)
+print(request)
+
+#--------------------
+# round 3: input set3
+set <- c("c","e","d","z","a","o")               # set needs to be input by user
+df_sel <- df_sel[which(df_sel[,request] %in% set),]
+v_col[request] <- -1
+for (i in seq_along(v_col)) {
+  if (v_col[i] != -1) {
+    v_col[i] <- length(unique(df_sel[,i]))
+  }
+}
+if (max(v_col) == 1) {
+  request <- "stop"
+} else {
+  request <- which(v_col == max(v_col))[1]
+}
+print(df_sel)
+print(request)
